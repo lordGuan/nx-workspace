@@ -19,7 +19,7 @@ const defaultPerson = {
   },
 };
 
-const personAtom = atom(defaultPerson);
+export const personAtom = atom(defaultPerson);
 
 /**
  * nameAtom是一个有personAtom驱动的原子
@@ -31,14 +31,14 @@ const personAtom = atom(defaultPerson);
  * 和read-only atom不同的时，reader订阅的atom变化就会引起read-only atom的变化
  * 用在衍生出的值为引用类型的场景
  */
-const nameAtom = selectAtom(personAtom, (person) => person.name);
+export const nameAtom = selectAtom(personAtom, (person) => person.name);
 
 const birthAtom = selectAtom(personAtom, (person) => person.birth, deepEquals);
 
 /**
  * 统计渲染次数
  */
-const useRenderCounter = () => {
+export const useRenderCounter = () => {
   const rerenderCountRef = useRef(0);
   useEffect(() => {
     rerenderCountRef.current += 1;
@@ -50,7 +50,7 @@ const useRenderCounter = () => {
  * nameAtom更新时次数更新
  * @constructor
  */
-const DisplayName = () => {
+export const DisplayName = () => {
   const name = useAtomValue(nameAtom);
   const n = useRenderCounter();
   return (
@@ -92,8 +92,8 @@ const SwapNameButton = () => {
    */
   const handleSwapName = () => {
     setPerson((p) => {
-      let first = p.name.first;
-      let last = p.name.last;
+      const first = p.name.first;
+      const last = p.name.last;
       p.name.last = first;
       p.name.first = last;
 
@@ -103,7 +103,7 @@ const SwapNameButton = () => {
   return <button data-testid={'swap-name-button'} onClick={handleSwapName} />;
 };
 
-const UpdateNameButton = () => {
+export const UpdateNameButton = () => {
   const [person, setPerson] = useAtom(personAtom);
   /**
    * name引用变更
@@ -122,7 +122,7 @@ const UpdateNameButton = () => {
     <button data-testid={'update-name-button'} onClick={handleUpdateName} />
   );
 };
-const ReplayBirthButton = () => {
+export const ReplayBirthButton = () => {
   const [person, setPerson] = useAtom(personAtom);
   /**
    * name和birth引用均变更
@@ -151,7 +151,7 @@ const ReplayBirthButton = () => {
   );
 };
 
-const ChangeBirthButton = () => {
+export const ChangeBirthButton = () => {
   const [person, setPerson] = useAtom(personAtom);
   /**
    * 变更了birth的实际内容
